@@ -1,0 +1,59 @@
+name: Sync labels
+
+on:
+  workflow_call:
+    inputs:
+      labels_source_repo:
+        description: Repository containing the labels.yml file
+        required: false
+        type: string
+        default: "getradgjof/.github"
+      labels_source_ref:
+        description: Branch, tag, or SHA to fetch labels from
+        required: false
+        type: string
+        default: "main"
+      dry_run:
+        description: If true, only print changes
+        required: false
+        type: boolean
+        default: false
+      skip_delete:
+        description: Do not delete labels that are not in labels.yml
+        required: false
+        type: boolean
+        default: false
+
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: If true, only print changes
+        required: false
+        default: "false"
+      skip_delete:
+        description: Do not delete labels that are not in labels.yml
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout labels source
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.labels_source_repo || 'getradgjof/.github' }}
+          ref: ${{ inputs.labels_source_ref || 'main' }}
+          path: labels-src
+
+      - name: Apply labels from labels.yml
+        uses: crazy-max/ghaction-github-labeler@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yaml-file: labels-src/.github/labels.yml
+          dry-run: ${{ inputs.dry_run || github.event.inputs.dry_run || 'false' }}
+          skip-delete: ${{ inputs.skip_delete || github.event.inputs.skip_delete || 'false' }}

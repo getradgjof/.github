@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Product discussions
+    url: https://github.com/<org>/<repo>/discussions
+    about: Ask questions, share ideas, or discuss features before filing a request.
+  - name: Formal documentation (Confluence)
+    url: https://confluence.example.com/
+    about: Link to our internal product documentation and specs.
