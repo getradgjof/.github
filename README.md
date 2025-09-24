@@ -21,7 +21,9 @@ This repository provides organization-wide GitHub configuration, including an is
 Repositories in the org automatically inherit templates from this `.github` repo (on the default branch) under `.github/ISSUE_TEMPLATE`.
 
 Helpful links:
-- Confluence: https://confluence.example.com/
+- Confluence space: https://dpapi.atlassian.net/wiki/spaces/INTERNAL/
+  - Folder: INTERNAL > Developer Documentation > Github Feature Requests
+  - Example doc: https://dpapi.atlassian.net/wiki/spaces/INTERNAL/pages/787873797/Example+feature+request
 - Discussions: https://github.com/<org>/<repo>/discussions
 
 ## Org-wide labels

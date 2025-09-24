@@ -13,8 +13,8 @@ body:
     id: doc_url
     attributes:
       label: Formal documentation URL
-      description: Link to the detailed specification or product document (e.g., Confluence).
-      placeholder: https://confluence.example.com/display/PROJ/Feature+Spec
+      description: Link to the Confluence spec under INTERNAL > Developer Documentation > Github Feature Requests.
+      placeholder: https://dpapi.atlassian.net/wiki/spaces/INTERNAL/pages/787873797/Example+feature+request
     validations:
       required: false
 
