@@ -1,0 +1,140 @@
+name: "Backlog: Feature request"
+description: "Propose a new feature for the product backlog"
+title: "feat: <concise summary>"
+labels: ["type: feature", "status: backlog"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a feature! Please fill out the fields below to help us triage and plan.
+
+  - type: input
+    id: doc_url
+    attributes:
+      label: Formal documentation URL
+      description: Link to the detailed specification or product document (e.g., Confluence).
+      placeholder: https://confluence.example.com/display/PROJ/Feature+Spec
+    validations:
+      required: false
+
+  - type: input
+    id: discussion_url
+    attributes:
+      label: Related GitHub Discussion (optional)
+      description: Paste a link to the Discussion thread (or internal GitHub link) where this feature is being discussed.
+      placeholder: https://github.com/<org>/<repo>/discussions/<id>
+    validations:
+      required: false
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem does this solve? Who is affected? What is the current workaround or pain?
+      placeholder: |
+        Clearly describe the user problem and why it matters.
+        Include who is impacted, how often, and any data/metrics if available.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed solution / scope
+      description: Outline the approach, scope, and key decisions. If you have alternatives, list pros/cons.
+      placeholder: |
+        High-level approach
+        - In scope:
+        - Out of scope:
+        Notable decisions & trade-offs
+        Alternatives considered
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority (org-wide)
+      description: Select the expected priority. Consider impact, urgency, and dependencies.
+      options:
+        - P0 - Critical (must-have for imminent release, blocks core workflows)
+        - P1 - High (important, targeted soon)
+        - P2 - Medium (valuable, schedule as capacity allows)
+        - P3 - Low (nice-to-have, low urgency)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size estimate (T-shirt)
+      description: Rough sizing to help with planning.
+      options:
+        - XS
+        - S
+        - M
+        - L
+        - XL
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Use one checkbox per criterion. Be specific and testable.
+      placeholder: |
+        - [ ] User can ...
+        - [ ] Docs updated (README/help/Confluence)
+        - [ ] Telemetry added (logs/metrics/traces)
+        - [ ] Automated tests cover critical paths
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: readiness
+    attributes:
+      label: Readiness checklist
+      description: Common considerations before moving to implementation.
+      options:
+        - label: Tests planned and acceptance criteria are testable
+        - label: Documentation impact identified (end-user and internal)
+        - label: Security/privacy reviewed (authn/z, secrets, PII, threat model)
+        - label: Backward/compatibility and migration considered
+        - label: Telemetry/monitoring requirements captured
+        - label: Performance and capacity implications considered
+
+  - type: textarea
+    id: security
+    attributes:
+      label: Security and privacy considerations
+      description: Note any data sensitivity, RBAC changes, secrets management, PII handling, abuse cases, and mitigations.
+      placeholder: |
+        - Data classification and retention
+        - Authentication/authorization changes
+        - Secrets and key handling
+        - PII/PHI considerations and compliance
+        - Threats and mitigations
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and related work
+      description: List related issues, services, teams, deadlines, or external constraints.
+      placeholder: |
+        - Depends on #123
+        - Related to #456 and #789
+        - External service/API dependency
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context / notes
+      description: Anything else we should know? Links, screenshots, diagrams.
+    validations:
+      required: false

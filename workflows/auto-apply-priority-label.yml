@@ -1,0 +1,84 @@
+name: Auto-apply priority label from issue form
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  label-priority:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply P# label based on selected Priority
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const body = issue.body || '';
+            const hasFeatureType = (issue.labels || []).some(l => (l.name || '').toLowerCase() === 'type: feature');
+            if (!hasFeatureType) {
+              core.info('Issue is not labeled as type: feature; skipping priority label application.');
+              return;
+            }
+
+            // Find the 'Priority (org-wide)' section from the Issue Form
+            const lines = body.split(/\r?\n/);
+            let selected = null;
+            for (let i = 0; i < lines.length; i++) {
+              if (lines[i].trim().toLowerCase().startsWith('### priority (org-wide)')) {
+                // Next non-empty, non-heading line is the selection
+                for (let j = i + 1; j < lines.length; j++) {
+                  const line = lines[j].trim();
+                  if (!line) continue;
+                  if (line.startsWith('###')) break; // no selection found
+                  selected = line;
+                  break;
+                }
+                break;
+              }
+            }
+
+            // Map selection to label name
+            const mapToLabel = (str) => {
+              if (!str) return null;
+              const l = str.trim();
+              if (l.startsWith('P0 -')) return 'P0 - Critical';
+              if (l.startsWith('P1 -')) return 'P1 - High';
+              if (l.startsWith('P2 -')) return 'P2 - Medium';
+              if (l.startsWith('P3 -')) return 'P3 - Low';
+              return null;
+            };
+
+            const priorityLabel = mapToLabel(selected);
+            if (!priorityLabel) {
+              core.info('No priority selection detected or mapping not found. Skipping.');
+              return;
+            }
+
+            // Ensure only one P# label remains on the issue
+            const existing = issue.labels.map(l => l.name);
+            const prioritySet = new Set(['P0 - Critical','P1 - High','P2 - Medium','P3 - Low']);
+
+            // Remove other P# labels if present
+            for (const lbl of existing) {
+              if (prioritySet.has(lbl) && lbl !== priorityLabel) {
+                try {
+                  await github.rest.issues.removeLabel({ owner, repo, issue_number: issue.number, name: lbl });
+                } catch (e) {
+                  core.warning(`Failed to remove label ${lbl}: ${e.message}`);
+                }
+              }
+            }
+
+            // Add the desired P# label if not already present
+            if (!existing.includes(priorityLabel)) {
+              await github.rest.issues.addLabels({ owner, repo, issue_number: issue.number, labels: [priorityLabel] });
+            } else {
+              core.info(`Priority label already present: ${priorityLabel}`);
+            }
