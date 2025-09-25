@@ -1,0 +1,23 @@
+name: "Simple issue"
+description: "A minimal issue template similar to the default"
+title: ""
+labels: []
+assignees: []
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Briefly describe the issue.
+      placeholder: What happened? What do you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context (optional)
+      description: Links, screenshots, environment, versions.
+      placeholder: OS, version, links, screenshots
+    validations:
+      required: false
