@@ -1,9 +1,10 @@
 name: "Simple issue"
-description: "A minimal issue template similar to the default"
-title: ""
-labels: []
-assignees: []
+description: "A minimal issue form similar to the default issue"
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this minimal form for a quick issue. Add details in the Description and any links or screenshots in Additional context.
   - type: textarea
     id: description
     attributes:
