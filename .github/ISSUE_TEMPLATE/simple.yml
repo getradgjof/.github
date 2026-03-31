@@ -13,12 +13,3 @@ body:
       placeholder: What happened? What do you expect?
     validations:
       required: true
-
-  - type: textarea
-    id: context
-    attributes:
-      label: Additional context (optional)
-      description: Links, screenshots, environment, versions.
-      placeholder: OS, version, links, screenshots
-    validations:
-      required: false
